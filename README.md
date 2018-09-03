@@ -41,7 +41,7 @@ Unfortunately NixOS doesn't have declaritive configuration of xdg
 mime/application associations yet, so to set `lsfws` as a default, run e.g.
 
 ```sh
-xdg-mime default lsfws.desktop text/html
+$ xdg-mime default lsfws.desktop text/html
 ```
 
 NixOS doesn't link shares by default, so this may require adding
