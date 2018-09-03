@@ -1,22 +1,16 @@
-let chromium = {
-  drv = (import <nixpkgs> {}).pkgs.chromium;
-  binName = "chromium";
-}; in
-
-{ bash, stdenv, coreutils, gnused, makeDesktopItem, browser ? chromium }:
+{ bash, stdenv, coreutils, gnused, makeDesktopItem, browser }:
 
 let desktopFile = makeDesktopItem rec {
   name = "lsfws";
   exec = name;
   mimeType = "text/html";
-# icon =
   comment = ''
     Opens html files through the local static file web server rather than the
     file:// protocol.
   '';
   desktopName = name;
   genericName = name;
-  categories = "Internet";
+  categories = "Utility";
 };
 
 in stdenv.mkDerivation {
