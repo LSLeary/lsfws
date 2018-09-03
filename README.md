@@ -37,7 +37,7 @@ imports and configure `lsfws` through the provided `programs.lsfws` options. E.g
 ```
 
 ## XDG
-Unfortunately NixOS doesn't have declaritive configuration of xdg
+Unfortunately NixOS doesn't have declarative configuration of xdg
 mime/application associations yet, so to set `lsfws` as a default, run e.g.
 
 ```sh
