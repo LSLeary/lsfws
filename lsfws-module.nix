@@ -10,7 +10,7 @@ in
       drv = mkOption {
         default = pkgs.chromium;
         defaultText = "pkgs.chromium";
-        type = types.package;
+        type = with types; package;
         example = literalExample "pkgs.firefox";
         description =
           "The browser used to access the local static file web server.";
@@ -18,7 +18,7 @@ in
       binName = mkOption {
         default = "chromium";
         defaultText = ''"chromium"'';
-        type = types.str;
+        type = with types; str;
         example = literalExample ''"firefox"'';
         description = "The file name of the binary to use in the provided drv.";
       };
@@ -26,7 +26,7 @@ in
     serveNixStore = mkOption {
       default = true;
       defaultText = "true";
-      type = types.bool;
+      type = with types; bool;
       example = literalExample "false";
       description = "Whether or not to serve the nix store.";
     };
@@ -34,7 +34,7 @@ in
       enable = mkOption {
         default = false;
         defaultText = "false";
-        type = types.bool;
+        type = with types; bool;
         example = literalExample "true";
         description = ''
           Whether to serve a user's home directory. Note enabling this option
@@ -44,7 +44,7 @@ in
       username = mkOption {
         default = null;
         defaultText = "null";
-        type = types.nullOr types.str;
+        type = with types; nullOr str;
         example = "leary";
         description = ''
           The user whose home directory will be served. httpd will run as this
@@ -52,12 +52,22 @@ in
         '';
       };
     };
+    otherServes = mkOption {
+      default = [];
+      defaultText = "[]";
+      type = with types; listOf (attrsOf str);
+      example = literalExample ''
+        [ rec { dir = "/media/ExtHDD"; urlPath = dir; } ]
+      '';
+      description = "Other directories to serve.";
+    };
   };
   config = mkIf cfg.enable {
     environment.systemPackages = [ lsfws ];
     services.httpd = {
       enable = true;
       servedDirs =
+        cfg.otherServes ++
         optionals cfg.serveNixStore
           [ rec { dir = "/nix/store"; urlPath = dir; } ] ++
         optionals cfg.serveUser.enable

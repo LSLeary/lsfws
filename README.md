@@ -1,6 +1,6 @@
 # lsfws
-This repository provides a simple wrapper around the browser of your choice that
-will open local files through a local static file web server which the nixos
+This repository provides a simple wrapper around a chosen browser that
+will open local files through a local static file web server, which the nixos
 module sets up by enabling certain `services.httpd` options. The wrapper has a
 .desktop file, so it can be used with xdg-open.
 
@@ -15,11 +15,15 @@ imports and configure lsfws through the provided `programs.lsfws` options. E.g.
 
   programs.lsfws = {
     enable = true;
-    # You can serve a user's home directory.
+    # Serve your user's home directory.
     serveUser = {
       enable = true;
       username = "leary";
     };
+    # Serve some other directories.
+    otherServes = [
+      rec { dir = "/media/ExtHDD"; urlPath = dir; }
+    ];
     # All further options reproduce the defaults.
     serveNixStore = true;
     browser = {
