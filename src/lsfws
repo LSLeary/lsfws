@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+browser "http://localhost$(realpath $1)"
