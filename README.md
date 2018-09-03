@@ -2,11 +2,11 @@
 This repository provides a simple wrapper around a chosen browser that
 will open local files through a local static file web server, which the nixos
 module provides by setting certain `services.httpd` options. The wrapper has a
-.desktop file, so it can be used with xdg-open.
+`.desktop` file, so it can be used in `xdg-open` associations.
 
 ## Usage
-Clone this repository, then add the provided module to your configuration.nix
-imports and configure lsfws through the provided `programs.lsfws` options. E.g.
+Clone this repository, then add the provided module to your `configuration.nix`
+imports and configure `lsfws` through the provided `programs.lsfws` options. E.g.
 
 ```nix
 { config, pkgs, ... }:
@@ -37,20 +37,20 @@ imports and configure lsfws through the provided `programs.lsfws` options. E.g.
 ```
 
 ## XDG
-Unfortunately NixOS doesn't have declaritive xdg mime association configuration
-yet, so to set lsfws as a default, run e.g.
+Unfortunately NixOS doesn't have declaritive configuration of xdg
+mime/application associations yet, so to set `lsfws` as a default, run e.g.
 
 ```sh
 xdg-mime default lsfws.desktop text/html
 ```
 
-Nix doesn't link shares by default, so this may require adding
+NixOS doesn't link shares by default, so this may require adding
 `/share/applications` to the `environment.pathsToLink` option.
 
 ## open-haddock
-lsfws was originally written for use with the excellent
-[open-haddock](github.com/jml/open-haddock) utility; check it out if you write
-haskell and use nix.
+`lsfws` was originally written for use with the excellent
+[open-haddock](https://github.com/jml/open-haddock) utility; check it out if you
+write Haskell.
 
 ## Feedback
 Have tips for improving any part of this repository? Let me know on irc or submit
