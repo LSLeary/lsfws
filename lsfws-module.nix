@@ -55,10 +55,8 @@ in
     otherServes = mkOption {
       default = [];
       defaultText = "[]";
-      type = with types; listOf (attrsOf str);
-      example = literalExample ''
-        [ rec { dir = "/media/ExtHDD"; urlPath = dir; } ]
-      '';
+      type = with types; listOf path;
+      example = literalExample ''[ /media/ExtHDD ]'';
       description = "Other directories to serve.";
     };
   };
@@ -66,12 +64,10 @@ in
     environment.systemPackages = [ lsfws ];
     services.httpd = {
       enable = true;
-      servedDirs =
-        cfg.otherServes ++
-        optionals cfg.serveNixStore
-          [ rec { dir = "/nix/store"; urlPath = dir; } ] ++
-        optionals cfg.serveUser.enable
-          [ rec { dir = "/home/${cfg.serveUser.username}"; urlPath = dir; } ];
+      servedDirs = map (dir: { inherit dir; urlPath = dir; })
+        (map builtins.toString cfg.otherServes ++
+         optionals cfg.serveNixStore [ "/nix/store" ] ++
+         optionals cfg.serveUser.enable [ "/home/${cfg.serveUser.username}" ]);
       user = mkIf cfg.serveUser.enable cfg.serveUser.username;
       adminAddr = "admin@email.com"; # Apparently we need this?
     };

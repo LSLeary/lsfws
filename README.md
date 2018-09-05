@@ -21,9 +21,7 @@ imports and configure `lsfws` through the provided `programs.lsfws` options. E.g
       username = "leary";
     };
     # Serve some other directories.
-    otherServes = [
-      rec { dir = "/media/ExtHDD"; urlPath = dir; }
-    ];
+    otherServes = [ /media/ExtHDD ];
     # All further options reproduce the defaults.
     serveNixStore = true;
     browser = {
