@@ -2,6 +2,11 @@
 let
   inherit (lib) mkOption mkIf literalExample;
   cfg = config.programs.lsfws;
+  servedDirs = map (dir: { inherit dir; urlPath = dir; }) toServe;
+  toServe
+    = map builtins.toString cfg.otherServes
+   ++ optionals cfg.serveNixStore    [ "/nix/store" ]
+   ++ optionals cfg.serveUser.enable [ "/home/${cfg.serveUser.username}" ];
   lsfws = pkgs.callPackage ./lsfws.nix { inherit (cfg) browser; };
 in
 { options.programs.lsfws = {
@@ -65,12 +70,7 @@ in
     services.httpd = {
       enable = true;
       user = mkIf cfg.serveUser.enable cfg.serveUser.username;
-      virtualHosts.lsfws.servedDirs =
-        map (dir: { inherit dir; urlPath = dir; }) (
-          map builtins.toString cfg.otherServes ++
-          optionals cfg.serveNixStore [ "/nix/store" ] ++
-          optionals cfg.serveUser.enable [ "/home/${cfg.serveUser.username}" ]
-        );
+      virtualHosts.lsfws = { inherit servedDirs; };
     };
   };
 }
