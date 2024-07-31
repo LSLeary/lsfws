@@ -64,12 +64,13 @@ in
     environment.systemPackages = [ lsfws ];
     services.httpd = {
       enable = true;
-      servedDirs = map (dir: { inherit dir; urlPath = dir; })
-        (map builtins.toString cfg.otherServes ++
-         optionals cfg.serveNixStore [ "/nix/store" ] ++
-         optionals cfg.serveUser.enable [ "/home/${cfg.serveUser.username}" ]);
       user = mkIf cfg.serveUser.enable cfg.serveUser.username;
-      adminAddr = "admin@email.com"; # Apparently we need this?
+      virtualHosts.lsfws.servedDirs =
+        map (dir: { inherit dir; urlPath = dir; }) (
+          map builtins.toString cfg.otherServes ++
+          optionals cfg.serveNixStore [ "/nix/store" ] ++
+          optionals cfg.serveUser.enable [ "/home/${cfg.serveUser.username}" ]
+        );
     };
   };
 }

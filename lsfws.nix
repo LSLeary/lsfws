@@ -3,11 +3,11 @@
 let desktopFile = makeDesktopItem rec {
   name = "lsfws";
   exec = name;
-  mimeType = "text/html";
+  mimeTypes = [ "text/html" ];
   comment = "Opens html files through the local static file web server.";
   desktopName = name;
   genericName = name;
-  categories = "Utility";
+  categories = [ "Utility" ];
 };
 
 in stdenv.mkDerivation {
