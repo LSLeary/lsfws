@@ -4,10 +4,7 @@ let desktopFile = makeDesktopItem rec {
   name = "lsfws";
   exec = name;
   mimeType = "text/html";
-  comment = ''
-    Opens html files through the local static file web server rather than the
-    file:// protocol.
-  '';
+  comment = "Opens html files through the local static file web server.";
   desktopName = name;
   genericName = name;
   categories = "Utility";
